@@ -6,6 +6,9 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load dataset
 df = pd.read_csv("../data_clustering_inverse.csv")
@@ -60,3 +63,15 @@ my_pipeline.fit(X_train, y_train)
 # Get predict with model
 
 y_pred = my_pipeline.predict(X_test)
+
+# Model evaluation
+
+cm = confusion_matrix(y_test, y_pred)
+
+sns.heatmap(cm, cmap='Blues', annot=True)
+plt.title('Confusion matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.savefig('../src/imgs/confusion_matrix.png')
+
+print(classification_report(y_test, y_pred))
