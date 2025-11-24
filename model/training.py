@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load dataset
-df = pd.read_csv("../data_clustering_inverse.csv")
+df = pd.read_csv("../data/02-preprocessing/data_clustering_inverse.csv")
 
 # Cleaning data in feature target
 df.dropna(subset = ['Target'], inplace = True)
