@@ -3,7 +3,7 @@ from yellowbrick.cluster import KElbowVisualizer
 import pandas as pd
 import matplotlib.pyplot as plt
 
-dir = "data/02-preprocessing/processed_data.csv"
+dir = "data/02-preprocessing/data_preprocessing.csv"
 
 def nCluster():
 
@@ -25,7 +25,7 @@ def clustering():
 
     df['Cluster'] = model.fit_predict(df)
 
-    df.to_csv("data/03-clustering/clustering_data.csv", index=False)
+    df.to_csv("data/03-clustering/data_clustering.csv", index=False)
 
 
 if __name__ == '__main__':
