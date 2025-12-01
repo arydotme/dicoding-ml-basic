@@ -4,6 +4,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OrdinalEncoder, MinMaxScaler
 import pandas as pd
 from src.pipelines.load_data import loadData
+import joblib
 
 def preprocessing():
 
@@ -19,7 +20,7 @@ def preprocessing():
     X = df
 
     num_cols = df.select_dtypes(include = ['int64', 'float64']).columns
-    cat_cols = df.select_dtypes(include = 'object').columns
+    cat_cols = df.select_dtypes(include = ['object']).columns
 
     num_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
@@ -54,37 +55,7 @@ def preprocessing():
 
     processed_df.to_csv('data/02-preprocessing/data_preprocessing.csv', index=False)
 
-    try:
-        inverse = my_pipeline.named_steps['preprocessor']
-
-        num_inverse = inverse.named_transformers_['num']
-        cat_inverse = inverse.named_transformers_['cat']
-
-        num_proces = processed[:, :len(num_cols)]
-        cat_proces = processed[:, :len(cat_cols)]
-
-        num_inverse_scaled = num_inverse.named_steps['scaler'].inverse_transform(num_proces)
-
-        df_inverse_num = pd.DataFrame(
-            num_inverse_scaled,
-            columns = num_cols
-        )
-
-        cat_inverse_encode = cat_inverse.named_steps['ordinal'].inverse_transform(cat_proces)
-
-        df_inverse_cat = pd.DataFrame(
-            cat_inverse_encode,
-            columns = cat_cols
-        )
-
-        df_inverse = pd.concat([df_inverse_num, df_inverse_cat], axis=1)
-
-        df_inverse = df_inverse[df.columns]
-
-        df_inverse.to_csv('data/04-inverse/data_inverse.csv', index=False)
-
-    except Exception as e:
-        print(f"error: {e}")
+    joblib.dump(my_pipeline, 'data/02-preprocessing/pipeline.pkl')
 
     print("File berhasil disimpan")
 
