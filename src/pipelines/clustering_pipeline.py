@@ -2,6 +2,7 @@ from sklearn.cluster import KMeans
 from yellowbrick.cluster import KElbowVisualizer
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
 
 dir = "data/02-preprocessing/data_preprocessing.csv"
 
@@ -27,6 +28,7 @@ def clustering():
 
     df.to_csv("data/03-clustering/data_clustering.csv", index=False)
 
+    joblib.dump(model, "data/03-clustering/clustering.pkl")
 
 if __name__ == '__main__':
     nCluster()
