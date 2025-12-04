@@ -42,12 +42,12 @@ cat_transformer = Pipeline(steps=[
 
 my_pipeline = Pipeline(steps=[
     ('categorical', cat_transformer),
-    ('model', RandomForestClassifier(n_estimators=100, random_state=0))
+    ('models', RandomForestClassifier(n_estimators=100, random_state=0))
 ])
 
 my_pipeline.fit(X_train, y_train)
 
-# Get predict with model
+# Get predict with models
 y_pred = my_pipeline.predict(X_test)
 
 # Model evaluation
