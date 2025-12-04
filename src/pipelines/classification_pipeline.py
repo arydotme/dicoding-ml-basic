@@ -1,4 +1,5 @@
 import pandas as pd
+import joblib
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -94,6 +95,8 @@ def classify():
 
             grid_search.fit(X_train, y_train)
 
+            best_model = grid_search.best_estimator_
+
             y_pred = grid_search.predict(X_test)
 
             acc = accuracy_score(y_test, y_pred)
@@ -103,6 +106,8 @@ def classify():
                 'model': model,
                 'accuracy': acc,
             }
+
+            joblib.dump(grid_search, f"src/models/{model_name}_best.pkl")
         else:
             my_pipeline.fit(X_train, y_train)
 
@@ -115,6 +120,9 @@ def classify():
                 'accuracy': acc,
                 'model': model
             }
+
+            joblib.dump(my_pipeline, f"src/models/{model_name}.pkl")
+
 
     for name, info in results.items():
         print("\n=============================\n")
