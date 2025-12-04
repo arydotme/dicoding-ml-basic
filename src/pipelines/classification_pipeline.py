@@ -1,12 +1,10 @@
-import numpy as np
 import pandas as pd
-import joblib
 from sklearn.compose import ColumnTransformer
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -62,8 +60,17 @@ def classify():
     }
 
     params = {
-        'DecisionTreeClassifier': {'max_depth': [8, 16, 32, 64, 128]},
-        'RandomForestClassifier': {'n_estimators': [10, 30, 50, 70, 100]}
+        'LogisticRegression': {
+            'model__tol': [0.0001, 0.1, 0.01, 0.001]
+        },
+        'DecisionTreeClassifier': {
+            'model__max_depth': [8, 16, 32, 64, 128],
+            'model__max_features': [3, 4, 5, 6, 7]},
+        'RandomForestClassifier': {
+            'model__n_estimators': [10, 30, 50, 70, 100],
+            'model__max_depth': [8, 16, 32, 64, 128],
+            'model__max_features': [3, 4, 5, 6, 7]
+        }
     }
 
     results = {}
@@ -75,19 +82,43 @@ def classify():
             ('model', model)
         ])
 
-        my_pipeline.fit(X_train, y_train)
+        if model_name in params:
+            params_grid = params[model_name]
 
-        y_pred = my_pipeline.predict(X_test)
+            grid_search = GridSearchCV(
+                estimator=my_pipeline,
+                param_grid=params_grid,
+                n_jobs=-1,
+                scoring='accuracy'
+            )
 
-        acc = accuracy_score(y_test, y_pred)
+            grid_search.fit(X_train, y_train)
 
-        results[model_name] = {
-            'accuracy': acc,
-            'model': model
-        }
+            y_pred = grid_search.predict(X_test)
+
+            acc = accuracy_score(y_test, y_pred)
+
+            results[model_name] = {
+                'params': grid_search.best_params_,
+                'model': model,
+                'accuracy': acc,
+            }
+        else:
+            my_pipeline.fit(X_train, y_train)
+
+            y_pred = my_pipeline.predict(X_test)
+
+            acc = accuracy_score(y_test, y_pred)
+
+            results[model_name] = {
+                'params': None,
+                'accuracy': acc,
+                'model': model
+            }
 
     for name, info in results.items():
-        print(f"Model {name} accuracy: {info['accuracy']:.2f}")
+        print("\n=============================\n")
+        print(f"Model {name}:\nBest params: {info['params']}\nAccuracy {name}: {info['accuracy']:.2f}%")
 
 if __name__ == '__main__':
     classify()
