@@ -3,7 +3,7 @@ on: [push]
 jobs:
   run:
     runs-on: [ubuntu-latest]
-    container: docker://cmlrunner/cml:latest
+    container: docker://iterativeai/cml:latest
     steps:
       - uses: actions/checkout@v2
       - name: 'Train my model'
