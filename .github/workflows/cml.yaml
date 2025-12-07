@@ -1,20 +1,16 @@
 name: mlops-example-pipeline
-
 on: [push]
-
 jobs:
   run:
-    runs-on: ubuntu-latest
-
+    runs-on: [ubuntu-latest]
+    container: docker://cmlrunner/cml:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+      - name: 'Train my model'
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
 
-      - name: Setup container for training
-        uses: addnab/docker-run-action@v3
-        with:
-          image: dvcorg/cml-py3:latest
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd /workspace
-            pip install -r requirements.txt
-            python src/pipelines/classification_pipeline.py
+          # Your ML workflow goes here
+          pip install -r requirements.txt
+          python src/pipelines/classification_pipeline.py
