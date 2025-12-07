@@ -57,6 +57,6 @@ sns.heatmap(cm, cmap='Blues', annot=True)
 plt.title('Confusion matrix')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
-plt.savefig('../src/imgs/confusion_matrix.png')
+plt. g('../src/imgs/confusion_matrix.png')
 
 print(classification_report(y_test, y_pred))
