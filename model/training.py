@@ -4,7 +4,10 @@ from src.pipelines.clustering_pipeline import nCluster, clustering
 from src.pipelines.inverse_pipeline import inverse
 from src.pipelines.classification_pipeline import classify
 from src.pipelines.evaluation_pipeline import evaluation
+import sys
+import os
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 def main():
     print("\n==========================")
