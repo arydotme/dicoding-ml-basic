@@ -1,62 +1,60 @@
-#Import Library
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, confusion_matrix
-import matplotlib.pyplot as plt
-import seaborn as sns
+from src.pipelines.load_data import dataRaw
+from src.pipelines.preprocessing_pipeline import preprocessing
+from src.pipelines.clustering_pipeline import nCluster, clustering
+from src.pipelines.inverse_pipeline import inverse
+from src.pipelines.classification_pipeline import classify
+from src.pipelines.evaluation_pipeline import evaluation
 
-# Load dataset
-df = pd.read_csv("data/04-inverse/data_inverse.csv")
 
-# Splitting dataset to train and test
-X = df.drop(columns = ['Target'])
-y = df['Target']
+def main():
+    print("\n==========================")
+    print("  TRAINING PIPELINE START ")
+    print("==========================\n")
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size = 0.2,
-    random_estate = 0
-)
+    # 1. Load Raw Data
+    print("[1] Loading raw data...")
+    df_raw = dataRaw()
+    print(f"    ✔ Raw data loaded: {df_raw.shape[0]} rows")
 
-# Get columns with numeric value
-num_cols = [cname for cname in X_train.columns if X_train[cname].dtypes in ['int64', 'float64']]
+    # 2. Preprocessing
+    print("[2] Running preprocessing...")
+    preprocessing()
+    print("    ✔ Preprocessing finished")
 
-# Get columns with categorical value
-cat_cols = [cname for cname in X_train.columns if X_train[cname].dtypes == 'object']
+    # 3. Clustering (Elbow + KMeans)
+    print("[3] Running clustering...")
+    nCluster()
+    clustering()
+    print("    ✔ Clustering finished")
 
-# Combine cols numeric and categorical
-my_cols = num_cols + cat_cols
-X_train = X_train[my_cols].copy()
-X_test = X_test[my_cols].copy()
+    # 4. Inverse Transform
+    print("[4] Running inverse transformation...")
+    inverse()
+    print("    ✔ Inverse data generated")
 
-cat_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy = 'most_frequent')),
-    ('encoder', OrdinalEncoder(handle_unknown = 'use_encoded_value', unknown_value = -1))
-])
+    # 5. Classification
+    print("[5] Running classification...")
+    classify()
+    print("    ✔ Classification finished")
 
-my_pipeline = Pipeline(steps=[
-    ('categorical', cat_transformer),
-    ('models', RandomForestClassifier(n_estimators=100, random_state=0))
-])
+    # 6. Evaluation
+    print("[6] Running evaluation...")
+    model_paths = {
+        'DecisionTreeClassifier': 'src/models/DecisionTreeClassifier_best.pkl',
+        'LogisticRegression': 'src/models/LogisticRegression_best.pkl',
+        'RandomForestClassifier': 'src/models/RandomForestClassifier_best.pkl'
+    }
+    data_path = "data/04-inverse/data_inverse.csv"
 
-my_pipeline.fit(X_train, y_train)
+    eval = evaluation(model_paths, data_path)
+    eval.plt_confusion_matrix()
+    eval.plt_classification_report()
 
-# Get predict with models
-y_pred = my_pipeline.predict(X_test)
+    print("    ✔ Evaluation saved")
 
-# Model evaluation
-cm = confusion_matrix(y_test, y_pred)
+    print("\n==========================")
+    print("  TRAINING PIPELINE DONE! ")
+    print("==========================\n")
 
-sns.heatmap(cm, cmap='Blues', annot=True)
-plt.title('Confusion matrix')
-plt.xlabel('Predicted')
-plt.ylabel('Actual')
-plt. g('../src/imgs/confusion_matrix.png')
-
-print(classification_report(y_test, y_pred))
+if __name__ == "__main__":
+    main()
