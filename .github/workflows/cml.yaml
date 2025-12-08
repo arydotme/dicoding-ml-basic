@@ -13,4 +13,4 @@ jobs:
 
           # Your ML workflow goes here
           pip install -r requirements.txt
-          python src/pipelines/classification_pipeline.py
+          python model/training.py
