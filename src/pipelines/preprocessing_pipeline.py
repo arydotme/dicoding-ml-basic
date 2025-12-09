@@ -3,12 +3,12 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OrdinalEncoder, MinMaxScaler
 import pandas as pd
-from src.pipelines.load_data import loadData
+from src.pipelines.load_data import dataRaw
 import joblib
 
 def preprocessing():
 
-    df = loadData()
+    df = dataRaw()
 
     drop_feature = [
         'TransactionID', 'TransactionDate', 'AccountID', 'DeviceID', 'MerchantID', 'IP Address',

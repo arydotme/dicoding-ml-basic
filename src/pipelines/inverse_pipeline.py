@@ -1,14 +1,14 @@
 import joblib
 import pandas as pd
 import numpy as np
-
+from src.pipelines.load_data import dataPreprocessing, dataClustering
 
 def inverse():
     try:
         # Load data yang sudah diproses
-        df_processed = pd.read_csv("data/02-preprocessing/data_preprocessing.csv")
+        df_processed = dataPreprocessing()
         my_pipeline = joblib.load("data/02-preprocessing/pipeline.pkl")
-        cluster_labels = pd.read_csv("data/03-clustering/data_clustering.csv")['Cluster'].values
+        cluster_labels = dataClustering()['Cluster'].values
 
         # Dapatkan preprocessor
         preprocessor = my_pipeline.named_steps['preprocessor']

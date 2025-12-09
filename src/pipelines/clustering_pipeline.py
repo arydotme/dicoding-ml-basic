@@ -3,12 +3,11 @@ from yellowbrick.cluster import KElbowVisualizer
 import pandas as pd
 import matplotlib.pyplot as plt
 import joblib
-
-dir = "data/02-preprocessing/data_preprocessing.csv"
+from src.pipelines.load_data import dataPreprocessing
 
 def nCluster():
 
-    df = pd.read_csv(dir)
+    df = dataPreprocessing()
 
     km = KMeans(random_state = 42)
     n = KElbowVisualizer(km, k = (1, 10))
@@ -20,7 +19,7 @@ def nCluster():
 
 def clustering():
 
-    df = pd.read_csv(dir)
+    df = dataPreprocessing()
 
     model = KMeans(n_clusters=3, random_state=42, n_init="auto")
 

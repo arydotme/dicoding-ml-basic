@@ -1,4 +1,3 @@
-import pandas as pd
 import joblib
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -9,12 +8,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from src.pipelines.load_data import dataInverse
 
 def classify():
 
-    dir = "data/04-inverse/data_inverse.csv"
-
-    df = pd.read_csv(dir)
+    df = dataInverse()
 
     X = df.drop(columns = 'Cluster')
     y = df['Cluster']
@@ -106,6 +104,8 @@ def classify():
                 'model': model,
                 'accuracy': acc,
             }
+
+            joblib.dump(best_model, f"src/models/{model_name}.pkl")
 
             joblib.dump(grid_search, f"src/models/{model_name}_best.pkl")
         else:
