@@ -1,4 +1,3 @@
-import pandas as pd
 import joblib
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -105,6 +104,8 @@ def classify():
                 'model': model,
                 'accuracy': acc,
             }
+
+            joblib.dump(best_model, f"src/models/{model_name}.pkl")
 
             joblib.dump(grid_search, f"src/models/{model_name}_best.pkl")
         else:
