@@ -101,13 +101,13 @@ def classify():
 
             results[model_name] = {
                 'params': grid_search.best_params_,
-                'model': model,
+                'model': best_model,
                 'accuracy': acc,
             }
 
             joblib.dump(best_model, f"src/models/{model_name}.pkl")
 
-            joblib.dump(grid_search, f"src/models/{model_name}_best.pkl")
+            #joblib.dump(grid_search, f"src/models/{model_name}_best.pkl")
         else:
             my_pipeline.fit(X_train, y_train)
 
