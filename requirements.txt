@@ -1,7 +1,5 @@
+uvicorn
+fastapi
+numpy
 scikit-learn
-pandas
-matplotlib
-seaborn
-yellowbrick
-setuptools
-joblib
+pydantic
