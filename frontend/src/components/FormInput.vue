@@ -39,83 +39,110 @@ async function getPrediction() {
 </script>
 
 <template>
-  <form
+  <div class="p-8 min-h-screen bg-gray-50 w-screen">
+    <div class="max-w-3xl ml-58">
+
+      <!-- Header -->
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Fraud Transaction Prediction</h1>
+
+    <!-- Form Container -->
+    <form
       @submit.prevent="getPrediction"
-      class="grid grid-cols-2 lg:grid-cols-3 w-full justify-center items-center px-70 gap-10">
-    <div class="flex flex-col">
-      <label>
-        Transaction Amount
-      </label>
-      <input v-model="transactionAmount" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        Customer Age
-      </label>
-      <input v-model="customerAge" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        Transaction Duration
-      </label>
-      <input v-model="transactionDuration" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        Login Attempts
-      </label>
-      <input v-model="loginAttempts" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        Account Balance
-      </label>
-      <input v-model="accountBalance" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        Location
-      </label>
-      <input v-model="location" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>
-        CustomerOccupation
-      </label>
-      <input v-model="customerOccupation" placeholder="Type here..." class="w-fit border rounded-md border-slate-200 px-3 py-2 placeholder:text-slate-400 text-slate-700 focus:outline-none focus:border-slate-400">
-    </div>
-    <div class="flex flex-col">
-      <label>Transaction Channel</label>
-      <select
-          v-model="transactionChannel"
-          class="w-full border rounded-md border-slate-200 px-3 py-2 bg-white text-slate-700 focus:outline-none focus:border-slate-400"
+      class="bg-white p-8 rounded-xl shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <!-- Input Component -->
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Transaction Amount</label>
+        <input v-model="transactionAmount"
+               type="number"
+               placeholder="Enter amount..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Customer Age</label>
+        <input v-model="customerAge"
+               type="number"
+               placeholder="Enter age..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Transaction Duration</label>
+        <input v-model="transactionDuration"
+               type="number"
+               placeholder="Duration..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Login Attempts</label>
+        <input v-model="loginAttempts"
+               type="number"
+               placeholder="Attempts..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Account Balance</label>
+        <input v-model="accountBalance"
+               type="number"
+               placeholder="Balance..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Location</label>
+        <input v-model="location"
+               placeholder="Enter location..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Customer Occupation</label>
+        <input v-model="customerOccupation"
+               placeholder="Occupation..."
+               class="input-style" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Transaction Channel</label>
+        <select v-model="transactionChannel" class="input-style">
+          <option disabled value="">Select Channel</option>
+          <option value="ATM">ATM</option>
+          <option value="Online">Online</option>
+          <option value="Branch">Branch</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-1">Transaction Type</label>
+        <select v-model="transactionType" class="input-style">
+          <option disabled value="">Select Type</option>
+          <option value="Debit">Debit</option>
+          <option value="Credit">Credit</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-span-full flex justify-start">
+        <button
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+        >
+          Get Prediction
+        </button>
+      </div>
+
+      <!-- Result -->
+      <div
+        v-if="predictionResult !== null"
+        class="col-span-full bg-green-100 text-green-800 p-4 rounded-lg font-semibold"
       >
-        <option disabled value="">Transaction Channel</option>
-        <option value="Atm">ATM</option>
-        <option value="Online">Online</option>
-        <option value="Branch">Branch</option>
-      </select>
+        Prediction : {{ predictionResult }}
+      </div>
+    </form>
     </div>
-    <div class="flex flex-col">
-      <label>Transaction Type</label>
-      <select
-          v-model="transactionType"
-          class="w-full border rounded-md border-slate-200 px-3 py-2 bg-white text-slate-700 focus:outline-none focus:border-slate-400"
-      >
-        <option disabled value="">Transaction Type</option>
-        <option value="Debit">Debit</option>
-        <option value="Credit">Credit</option>
-      </select>
-    </div>
-    <div>
-      <button class="bg-amber-700 py-2 px-4 rounded-xl">
-        Get Predict
-      </button>
-    </div>
-    <div v-if="predictionResult" class="mt-4 p-4 bg-green-100 rounded-xl">
-      <p class="font-bold text-green-700">Prediction: {{ predictionResult }}</p>
-    </div>
-  </form>
+  </div>
 </template>
 
 <style scoped>

@@ -2,6 +2,7 @@ import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import numpy as np
+import pandas as pd
 from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -25,15 +26,27 @@ class TransactionFeature(BaseModel):
     transaction_channel: str
     transaction_type: str
 
-model = joblib.load("model/DecisionTreeClassifier_best.pkl")
+model = joblib.load("model/RandomForestClassifier.pkl")
 
 @app.post("/predict")
 def predict(data: TransactionFeature):
-    X = np.array([[data.transaction_amount, data.customer_age, data.transaction_duration,
-                   data.login_attempts, data.account_balance, data.location,
-                   data.customer_occupation, data.transaction_channel, data.transaction_type]])
     try:
-        prediction = model.predict(X)
-        return {"prediction": prediction}
+        df = pd.DataFrame([{
+            "TransactionAmount": data.transaction_amount,
+            "CustomerAge": data.customer_age,
+            "TransactionDuration": data.transaction_duration,
+            "LoginAttempts": data.login_attempts,
+            "AccountBalance": data.account_balance,
+            "Location": data.location,
+            "CustomerOccupation": data.customer_occupation,
+            "Channel": data.transaction_channel,
+            "TransactionType": data.transaction_type
+        }])
+
+        prediction = model.predict(df)[0]
+
+        return {"prediction": int(prediction)}
+
     except Exception as e:
+        print("ERROR BACKEND:", e)   # WAJIB lihat ini di console
         raise HTTPException(status_code=500, detail=f"Prediction failed: {e}")
