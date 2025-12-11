@@ -1,9 +1,12 @@
 <script setup>
 
+import FeatureImportance from "../components/FeatureImportance.vue";
 </script>
 
 <template>
-  <h3 class="flex">Ini Halaman Dashboard</h3>
+  <div class="px-67">
+    <FeatureImportance/>
+  </div>
 </template>
 
 <style scoped>
