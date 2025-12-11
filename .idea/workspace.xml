@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26bff1b8-c1bf-4524-bb1f-5f5edb7734cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/DecisionTreeClassifier.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/DecisionTreeClassifier_best.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/LogisticRegression.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/RandomForestClassifier.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pipelines/classification_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipelines/load_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipelines/load_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipelines/preprocessing_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipelines/preprocessing_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +19,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -57,7 +54,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging dev",
+    "git-widget-placeholder": "dev",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Ary/machine-learning/BMLP_Ahmad Bukhari/backend/model",
     "node.js.detected.package.eslint": "true",
@@ -81,11 +78,11 @@
       <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\data\01-raw" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\frontend\src\pages" />
       <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\FraudTransactionDetection\src" />
       <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\.idea" />
       <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari" />
       <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\FraudTransactionDetection" />
-      <recent name="C:\Ary\machine-learning\BMLP_Ahmad Bukhari\src\imgs\classification_report" />
     </key>
   </component>
   <component name="RunManager" selected="Python.inverse_pipeline">
@@ -256,6 +253,7 @@
       <workItem from="1765336331636" duration="1974000" />
       <workItem from="1765358034816" duration="488000" />
       <workItem from="1765369805235" duration="670000" />
+      <workItem from="1765457441694" duration="675000" />
     </task>
     <servers />
   </component>

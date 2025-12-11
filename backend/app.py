@@ -1,7 +1,7 @@
 import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import numpy as np
+import shap
 import pandas as pd
 from starlette.middleware.cors import CORSMiddleware
 
@@ -27,6 +27,30 @@ class TransactionFeature(BaseModel):
     transaction_type: str
 
 model = joblib.load("model/RandomForestClassifier.pkl")
+
+
+@app.post("/features-important")
+def features_important(data: TransactionFeature):
+    try:
+        explainer = shap.TreeExplainer(model)
+        shap_value = explainer.shap_value(data)
+
+        shap.summary_plot(
+            shap_value,
+            feature = data,
+            feature_names = data.columns
+        )
+
+        shap.summary_plot(
+            shap_value,
+            feature=data,
+            feature_names=data.columns,
+            plot_type="bar"
+        )
+
+    except Exception as e:
+        print("ERROR BACKEND: ", e)
+
 
 @app.post("/predict")
 def predict(data: TransactionFeature):

@@ -1,6 +1,6 @@
 import { createMemoryHistory ,createRouter } from "vue-router";
 
-import Dashboard from "../components/Dashboard.vue";
+import Dashboard from "../pages/Dashboard.vue";
 import FormInput from "../components/FormInput.vue";
 
 const routes = [
