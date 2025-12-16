@@ -6,16 +6,16 @@ import {ref, onMounted, callWithAsyncErrorHandling} from "vue";
   const chart = ref(null);
 
   onMounted(async () => {
-    const { data } = await axios.get("http://localhost:8000/features-important");
+    const { data } = await axios.post("http://localhost:8000/features-important");
 
     new Chart(chart.value, {
       type: "bar",
       data: {
-        labels: data.features,
-        dataset: [
+        labels: data.feature,
+        datasets: [
           {
             label: "Mean Absolute Contribution",
-            data: data.value,
+            data: data.values,
           },
         ],
       },
@@ -24,7 +24,7 @@ import {ref, onMounted, callWithAsyncErrorHandling} from "vue";
 </script>
 
 <template>
-    <div class="bg-white p-6 rounded shadow">
+  <div class="bg-white p-6 rounded shadow w-200">
     <h2 class="font-bold text-lg mb-4">Feature Importance</h2>
     <canvas ref="chart"></canvas>
   </div>

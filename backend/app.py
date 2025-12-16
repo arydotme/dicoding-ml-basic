@@ -1,4 +1,5 @@
 import joblib
+import matplotlib.pyplot as plt
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import shap
@@ -46,8 +47,9 @@ def features_important():
         feature_names = preprocessor.get_feature_names_out()
 
         return {
-            "feature": list(feature_names),
-            "values": importance.tolist(), }
+            "feature": feature_names.tolist(),
+            "values": importance.tolist()
+        }
 
     except Exception as e:
         print("ERROR BACKEND: ", e)

@@ -7,9 +7,7 @@
     <list default="true" id="26bff1b8-c1bf-4524-bb1f-5f5edb7734cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/FeatureImportance.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FeatureImportance.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,6 +252,7 @@
       <workItem from="1765358034816" duration="488000" />
       <workItem from="1765369805235" duration="670000" />
       <workItem from="1765457441694" duration="675000" />
+      <workItem from="1765765166179" duration="5649000" />
     </task>
     <servers />
   </component>
