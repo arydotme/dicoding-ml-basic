@@ -1,7 +1,8 @@
 import joblib
+import matplotlib.pyplot as plt
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import numpy as np
+import shap
 import pandas as pd
 from starlette.middleware.cors import CORSMiddleware
 
@@ -26,7 +27,33 @@ class TransactionFeature(BaseModel):
     transaction_channel: str
     transaction_type: str
 
-model = joblib.load("model/RandomForestClassifier.pkl")
+model_pipeline = joblib.load("model/RandomForestClassifier.pkl")
+data = pd.read_csv("data/data_inverse.csv")
+
+@app.post("/features-important")
+def features_important():
+    try:
+
+        preprocessor = model_pipeline.named_steps["preprocessor"]
+        model = model_pipeline.named_steps["model"]
+
+        transformed = preprocessor.transform(data)
+
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(transformed)
+
+        importance = abs(shap_values).mean(axis=0)
+
+        feature_names = preprocessor.get_feature_names_out()
+
+        return {
+            "feature": feature_names.tolist(),
+            "values": importance.tolist()
+        }
+
+    except Exception as e:
+        print("ERROR BACKEND: ", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/predict")
 def predict(data: TransactionFeature):
@@ -43,7 +70,7 @@ def predict(data: TransactionFeature):
             "TransactionType": data.transaction_type
         }])
 
-        prediction = model.predict(df)[0]
+        prediction = model_pipeline.predict(df)[0]
 
         return {"prediction": int(prediction)}
 
