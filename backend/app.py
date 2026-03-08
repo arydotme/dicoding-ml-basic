@@ -1,10 +1,14 @@
 import joblib
+import matplotlib
 import matplotlib.pyplot as plt
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import shap
 import pandas as pd
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+
+matplotlib.use('Agg')
 
 app = FastAPI()
 
@@ -42,14 +46,20 @@ def features_important():
         explainer = shap.TreeExplainer(model)
         shap_values = explainer.shap_values(transformed)
 
-        importance = abs(shap_values).mean(axis=0)
-
         feature_names = preprocessor.get_feature_names_out()
 
-        return {
-            "feature": feature_names.tolist(),
-            "values": importance.tolist()
-        }
+        explanation = shap.Explanation(
+            values=abs(shap_values[1].mean(axis=0)),
+            feature_names=feature_names
+        )
+
+        plt.figure()
+        shap.plots.bar(explanation, max_display=10, show=False)
+        plt.tight_layout()
+        plt.savefig("feature_important.png")
+        plt.close()
+
+        return FileResponse("feature_important.png", media_type="image/png")
 
     except Exception as e:
         print("ERROR BACKEND: ", e)
